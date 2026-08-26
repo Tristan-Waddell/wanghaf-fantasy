@@ -10,7 +10,8 @@ export async function Header() {
       <div className="nav-shell">
         <Link className="brand" href="/" aria-label="WANGHAF home">
           <span className="brand-primary">WANGHAF</span>
-          <span className="brand-secondary">Fantasy – League Betslip</span>
+          <span className="brand-secondary">Fantasy</span>
+          <span className="brand-extra"> – League Betslip</span>
         </Link>
 
         <nav className="nav-links" aria-label="Main navigation">

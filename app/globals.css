@@ -93,6 +93,11 @@ a {
   font-weight: 700;
 }
 
+.brand-extra {
+  color: white;
+  font-weight: 700;
+}
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -794,6 +799,10 @@ a {
     justify-content: center;
     gap: 5px;
     font-size: 0.9rem;
+  }
+
+  .brand-extra {
+    display: none;
   }
 
   .nav-links {
