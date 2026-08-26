@@ -787,16 +787,17 @@ a {
 @media (max-width: 470px) {
   .nav-shell {
     min-height: auto;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     gap: 12px;
     padding-block: 13px;
     padding-inline: 16px;
   }
 
   .brand {
-    width: 100%;
-    justify-content: center;
+    width: auto;
+    min-width: 0;
+    justify-content: flex-start;
     gap: 5px;
     font-size: 0.9rem;
   }
@@ -806,8 +807,9 @@ a {
   }
 
   .nav-links {
-    width: 100%;
-    justify-content: center;
+    width: auto;
+    flex: 0 0 auto;
+    justify-content: flex-end;
     gap: 10px;
     font-size: 0.78rem;
   }
