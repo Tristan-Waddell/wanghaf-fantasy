@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { AdBanner } from "@/components/ad-banner";
 import { Header } from "@/components/header";
 import "./globals.css";
 
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body>
         <Header />
         {children}
+        <AdBanner />
         <footer className="site-footer">
           <span>WANGHAF Fantasy League</span>
         </footer>

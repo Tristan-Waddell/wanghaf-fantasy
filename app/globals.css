@@ -685,6 +685,74 @@ a {
   font-weight: 700;
 }
 
+.ad-banner {
+  position: fixed;
+  z-index: 30;
+  right: 18px;
+  bottom: 18px;
+  width: min(430px, calc(100vw - 36px));
+  min-height: 116px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  border: 1px solid #4b5156;
+  border-radius: 12px;
+  color: white;
+  background: #16191b;
+  box-shadow: 0 14px 34px rgb(17 23 27 / 28%);
+}
+
+.ad-copy {
+  min-width: 0;
+  padding: 16px 10px 16px 18px;
+}
+
+.ad-label {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 3px 6px;
+  border: 1px solid #687178;
+  border-radius: 3px;
+  color: #aab2b7;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ad-headline {
+  max-width: 255px;
+  margin: 0;
+  color: #f5f7f8;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 1.04rem;
+  font-style: italic;
+  line-height: 1.1;
+}
+
+.ad-company {
+  margin: 7px 0 0;
+  color: var(--panthers-blue);
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.ad-product {
+  position: relative;
+  flex: 0 0 142px;
+  align-self: stretch;
+  overflow: hidden;
+}
+
+.ad-product img {
+  object-fit: contain;
+  object-position: center;
+  transform: scale(1.08);
+}
+
 .site-footer span:first-child {
   color: white;
   font-weight: 900;
@@ -781,6 +849,31 @@ a {
     flex-direction: column;
     justify-content: center;
     text-align: center;
+  }
+
+  .ad-banner {
+    right: 10px;
+    bottom: 10px;
+    width: min(360px, calc(100vw - 20px));
+    min-height: 92px;
+  }
+
+  .ad-copy {
+    padding: 11px 7px 11px 13px;
+  }
+
+  .ad-headline {
+    max-width: 190px;
+    font-size: 0.88rem;
+  }
+
+  .ad-company {
+    margin-top: 5px;
+    font-size: 0.6rem;
+  }
+
+  .ad-product {
+    flex-basis: 108px;
   }
 }
 
