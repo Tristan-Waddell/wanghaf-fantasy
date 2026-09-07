@@ -1,4 +1,5 @@
 import { query } from "@/lib/db";
+import type { PickResult } from "@/lib/results";
 
 export type LeagueWeek = {
   id: number;
@@ -13,6 +14,7 @@ export type LeaguePick = {
   displayName: string;
   betText: string;
   americanOdds: number;
+  result: PickResult | null;
   updatedAt: Date;
 };
 
@@ -48,10 +50,11 @@ export async function getPicksForWeek(weekId: number): Promise<LeaguePick[]> {
     display_name: string;
     bet_text: string;
     american_odds: number;
+    result: PickResult | null;
     updated_at: Date;
   }>(
     `SELECT picks.id, picks.user_id, users.display_name, picks.bet_text,
-            picks.american_odds, picks.updated_at
+            picks.american_odds, picks.result, picks.updated_at
      FROM picks
      JOIN users ON users.id = picks.user_id
      WHERE picks.week_id = $1
@@ -65,6 +68,7 @@ export async function getPicksForWeek(weekId: number): Promise<LeaguePick[]> {
     displayName: pick.display_name,
     betText: pick.bet_text,
     americanOdds: pick.american_odds,
+    result: pick.result,
     updatedAt: pick.updated_at,
   }));
 }

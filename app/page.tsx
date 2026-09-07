@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PickResultForm } from "@/components/pick-result-form";
 import { PickForm } from "@/components/pick-form";
 import { WeekNav } from "@/components/week-nav";
 import { getCurrentUser } from "@/lib/auth";
@@ -15,6 +16,7 @@ import {
   formatMoney,
   PARLAY_STAKE,
 } from "@/lib/odds";
+import { getPriorWeekNumber, missedPickNames } from "@/lib/results";
 
 export const dynamic = "force-dynamic";
 
@@ -39,16 +41,31 @@ export default async function Home({
     );
   }
 
-  const picks = await getPicksForWeek(week.id);
+  const previousWeek = weeks.find(
+    (candidate) => candidate.weekNumber === getPriorWeekNumber(week.weekNumber),
+  );
+  const [picks, previousPicks] = await Promise.all([
+    getPicksForWeek(week.id),
+    previousWeek ? getPicksForWeek(previousWeek.id) : Promise.resolve([]),
+  ]);
   const isTestingWeek = getPickTestWeek() === week.weekNumber;
   const status = isTestingWeek ? "open" : getWeekStatus(week.startsAt, week.locksAt);
   const userPick = picks.find((pick) => pick.userId === user?.id);
+  const userPreviousPick = previousPicks.find((pick) => pick.userId === user?.id);
+  const owingNames = missedPickNames(previousPicks);
   const parlay = calculateParlay(picks.map((pick) => pick.americanOdds));
 
   return (
     <main>
       <div className="page-shell main-content">
         <WeekNav weeks={weeks} selected={week.weekNumber} />
+
+        {owingNames.length > 0 && (
+          <aside className="payment-banner" aria-label="Players who owe this week">
+            <strong>Payment due this week</strong>
+            <span>{owingNames.join(", ")} {owingNames.length === 1 ? "has" : "have"} to pay after last week&apos;s miss.</span>
+          </aside>
+        )}
 
         <section className="week-overview" aria-labelledby="week-heading">
           <div className="overview-copy">
@@ -83,11 +100,37 @@ export default async function Home({
           </div>
         </section>
 
+        {previousWeek && previousPicks.length > 0 && (
+          <section className="last-week-section" aria-labelledby="last-week-heading">
+            <div className="section-heading compact-heading">
+              <div>
+                <p className="eyebrow">Settle up</p>
+                <h2 id="last-week-heading">Week {previousWeek.weekNumber} results</h2>
+              </div>
+              <span className="pick-count">Tap your result below</span>
+            </div>
+            <div className="pick-grid">
+              {previousPicks.map((pick) => (
+                <article className="pick-card result-card" key={pick.id}>
+                  <div className="pick-card-top">
+                    <span className="avatar">{pick.displayName.charAt(0).toUpperCase()}</span>
+                    <div><h3>{pick.displayName}</h3><p>Last week&apos;s pick</p></div>
+                    <strong className="odds-chip">{formatAmericanOdds(pick.americanOdds)}</strong>
+                  </div>
+                  <p className="bet-copy">{pick.betText}</p>
+                  {pick.result && <span className={`result-label ${pick.result}`}>{pick.result}</span>}
+                  {userPreviousPick?.id === pick.id && (
+                    <PickResultForm pickId={pick.id} result={pick.result} />
+                  )}
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
         <section className="betslip-section" aria-labelledby="betslip-heading">
           <div className="section-heading">
-            <div>
-              <h2 id="betslip-heading">Week {week.weekNumber} picks</h2>
-            </div>
+            <div><h2 id="betslip-heading">Week {week.weekNumber} picks</h2></div>
             <span className="pick-count">{picks.length} submitted</span>
           </div>
 
@@ -97,10 +140,7 @@ export default async function Home({
                 <article className="pick-card" key={pick.id}>
                   <div className="pick-card-top">
                     <span className="avatar">{pick.displayName.charAt(0).toUpperCase()}</span>
-                    <div>
-                      <h3>{pick.displayName}</h3>
-                      <p>Parlay leg {index + 1}</p>
-                    </div>
+                    <div><h3>{pick.displayName}</h3><p>Parlay leg {index + 1}</p></div>
                     <strong className="odds-chip">{formatAmericanOdds(pick.americanOdds)}</strong>
                   </div>
                   <p className="bet-copy">{pick.betText}</p>
@@ -108,44 +148,22 @@ export default async function Home({
               ))}
             </div>
           ) : (
-            <div className="empty-betslip">
-              <h3>No picks yet</h3>
-              <p>Be the first member to put Week {week.weekNumber} on the board.</p>
-            </div>
+            <div className="empty-betslip"><h3>No picks yet</h3><p>Be the first member to put Week {week.weekNumber} on the board.</p></div>
           )}
         </section>
 
         <section className="entry-card" aria-labelledby="entry-heading">
           <div className="section-heading compact-heading">
-            <div>
-              <p className="eyebrow">Your selection</p>
-              <h2 id="entry-heading">{userPick ? "Edit your pick" : "Add your pick"}</h2>
-            </div>
+            <div><p className="eyebrow">Your selection</p><h2 id="entry-heading">{userPick ? "Edit your pick" : "Add your pick"}</h2></div>
             {userPick && <span className="submitted-mark">Submitted</span>}
           </div>
 
           {!user ? (
-            <div className="entry-prompt">
-              <p>League members need to sign in before adding a pick.</p>
-              <div className="button-row">
-                <Link className="primary-button link-button" href="/login">Sign in</Link>
-              </div>
-            </div>
+            <div className="entry-prompt"><p>League members need to sign in before adding a pick.</p><div className="button-row"><Link className="primary-button link-button" href="/login">Sign in</Link></div></div>
           ) : status === "open" ? (
-            <PickForm
-              key={`${week.id}-${userPick?.updatedAt.toISOString() ?? "new"}`}
-              weekId={week.id}
-              weekNumber={week.weekNumber}
-              pick={userPick}
-            />
+            <PickForm key={`${week.id}-${userPick?.updatedAt.toISOString() ?? "new"}`} weekId={week.id} weekNumber={week.weekNumber} pick={userPick} />
           ) : (
-            <div className="entry-prompt">
-              <p>
-                {status === "upcoming"
-                  ? "This week is not open for picks yet."
-                  : "The edit window has closed for this week."}
-              </p>
-            </div>
+            <div className="entry-prompt"><p>{status === "upcoming" ? "This week is not open for picks yet." : "The edit window has closed for this week."}</p></div>
           )}
         </section>
       </div>

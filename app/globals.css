@@ -156,6 +156,36 @@ a {
   padding-bottom: 80px;
 }
 
+.payment-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 2px;
+  padding: 14px 18px;
+  border: 1px solid #f2c5c0;
+  border-radius: 10px;
+  color: #741b14;
+  background: #fff0ef;
+  font-size: 0.88rem;
+}
+
+.payment-banner strong {
+  flex: 0 0 auto;
+  color: var(--danger);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.last-week-section {
+  margin: 0 0 48px;
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #fbfcfd;
+}
+
 .week-nav {
   display: flex;
   gap: 7px;
@@ -548,6 +578,76 @@ a {
   font-size: 0.92rem;
   font-weight: 750;
   line-height: 1.45;
+}
+
+.result-card {
+  min-height: 215px;
+}
+
+.result-label {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.result-label.hit,
+.result-button.hit.selected {
+  color: #087345;
+  background: #dff6eb;
+}
+
+.result-label.push,
+.result-button.push.selected {
+  color: #805300;
+  background: #fff0c9;
+}
+
+.result-label.miss,
+.result-button.miss.selected {
+  color: #9c1c14;
+  background: #ffe1de;
+}
+
+.result-form {
+  margin-top: 14px;
+}
+
+.result-question {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.result-actions {
+  display: flex;
+  gap: 7px;
+}
+
+.result-button {
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--charcoal);
+  background: white;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+.result-button:hover:not(:disabled) {
+  border-color: #939ca3;
+}
+
+.result-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
 }
 
 .empty-betslip,
