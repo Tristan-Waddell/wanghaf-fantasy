@@ -186,6 +186,23 @@ a {
   background: #fbfcfd;
 }
 
+.pay-button {
+  display: flex;
+  width: fit-content;
+  margin: 0 4px 18px auto;
+  padding: 10px 16px;
+  border-radius: 8px;
+  color: white;
+  background: #008c5a;
+  box-shadow: 0 6px 16px rgb(0 140 90 / 20%);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.pay-button:hover {
+  background: #00754b;
+}
+
 .week-nav {
   display: flex;
   gap: 7px;

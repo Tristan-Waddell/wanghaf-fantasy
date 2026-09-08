@@ -16,6 +16,7 @@ import {
   formatMoney,
   PARLAY_STAKE,
 } from "@/lib/odds";
+import { PAYMENT_URL } from "@/lib/payment";
 import { getPriorWeekNumber, missedPickNames } from "@/lib/results";
 
 export const dynamic = "force-dynamic";
@@ -59,6 +60,9 @@ export default async function Home({
     <main>
       <div className="page-shell main-content">
         <WeekNav weeks={weeks} selected={week.weekNumber} />
+        <a className="pay-button" href={PAYMENT_URL} rel="noreferrer" target="_blank">
+          Pay 980
+        </a>
 
         {owingNames.length > 0 && (
           <aside className="payment-banner" aria-label="Players who owe this week">
