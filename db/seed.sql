@@ -2,7 +2,7 @@ INSERT INTO weeks (week_number, starts_at, locks_at)
 VALUES (
   1,
   (DATE '2026-09-07'::timestamp AT TIME ZONE 'America/New_York'),
-  ((DATE '2026-09-09' + TIME '17:00') AT TIME ZONE 'America/New_York')
+  ((DATE '2026-09-09' + TIME '19:00') AT TIME ZONE 'America/New_York')
 )
 ON CONFLICT (week_number) DO UPDATE SET
   starts_at = EXCLUDED.starts_at,
