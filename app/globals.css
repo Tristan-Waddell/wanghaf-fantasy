@@ -189,13 +189,13 @@ a {
 .pay-button {
   display: flex;
   width: fit-content;
-  margin: 0 4px 18px auto;
-  padding: 10px 16px;
-  border-radius: 8px;
+  margin: 0 4px 22px auto;
+  padding: 16px 26px;
+  border-radius: 10px;
   color: white;
   background: #008c5a;
-  box-shadow: 0 6px 16px rgb(0 140 90 / 20%);
-  font-size: 0.82rem;
+  box-shadow: 0 8px 20px rgb(0 140 90 / 24%);
+  font-size: 1.05rem;
   font-weight: 900;
 }
 
