@@ -330,6 +330,38 @@ a {
   opacity: 0.74;
 }
 
+.stake-field {
+  display: grid;
+  gap: 5px;
+  width: 138px;
+  margin-bottom: 12px;
+  color: rgb(255 255 255 / 82%);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stake-field > span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 9px;
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: 7px;
+  background: rgb(0 0 0 / 12%);
+}
+
+.stake-field input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: white;
+  background: transparent;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
 .return-copy,
 .parlay-empty {
   margin: 5px 0 0;

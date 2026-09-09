@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ParlayCalculator } from "@/components/parlay-calculator";
 import { PickResultForm } from "@/components/pick-result-form";
 import { PickForm } from "@/components/pick-form";
 import { WeekNav } from "@/components/week-nav";
@@ -10,12 +11,7 @@ import {
   getPickTestWeek,
   getWeeks,
 } from "@/lib/league";
-import {
-  calculateParlay,
-  formatAmericanOdds,
-  formatMoney,
-  PARLAY_STAKE,
-} from "@/lib/odds";
+import { formatAmericanOdds } from "@/lib/odds";
 import { PAYMENT_URL } from "@/lib/payment";
 import { getPriorWeekNumber, missedPickNames } from "@/lib/results";
 
@@ -54,7 +50,6 @@ export default async function Home({
   const userPick = picks.find((pick) => pick.userId === user?.id);
   const userPreviousPick = previousPicks.find((pick) => pick.userId === user?.id);
   const owingNames = missedPickNames(previousPicks);
-  const parlay = calculateParlay(picks.map((pick) => pick.americanOdds));
 
   return (
     <main>
@@ -91,14 +86,7 @@ export default async function Home({
           <div className="parlay-card">
             <div>
               <p className="card-label">League parlay · {picks.length} {picks.length === 1 ? "leg" : "legs"}</p>
-              {picks.length > 0 ? (
-                <>
-                  <p className="parlay-value">{formatMoney(PARLAY_STAKE)} <span>to win</span> {formatMoney(parlay.profit)}</p>
-                  <p className="return-copy">Total return {formatMoney(parlay.totalReturn)}</p>
-                </>
-              ) : (
-                <p className="parlay-empty">Waiting for the first pick</p>
-              )}
+              <ParlayCalculator odds={picks.map((pick) => pick.americanOdds)} />
             </div>
             <span className="parlay-icon" aria-hidden="true">×</span>
           </div>
