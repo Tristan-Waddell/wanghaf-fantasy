@@ -16,4 +16,6 @@ WHERE result IS NOT NULL
 ON CONFLICT (user_id, week_id) DO UPDATE
 SET result = EXCLUDED.result, recorded_at = EXCLUDED.recorded_at;
 
+GRANT SELECT, INSERT, UPDATE ON weekly_results TO wanghaf_app;
+
 COMMIT;
