@@ -8,6 +8,14 @@ export type LeagueWeek = {
   locksAt: Date;
 };
 
+export type LeagueResultEntry = {
+  userId: string;
+  displayName: string;
+  betText: string | null;
+  americanOdds: number | null;
+  result: PickResult | null;
+};
+
 export type LeaguePick = {
   id: string;
   userId: string;
@@ -70,6 +78,32 @@ export async function getPicksForWeek(weekId: number): Promise<LeaguePick[]> {
     americanOdds: pick.american_odds,
     result: pick.result,
     updatedAt: pick.updated_at,
+  }));
+}
+
+export async function getResultEntriesForWeek(weekId: number): Promise<LeagueResultEntry[]> {
+  const result = await query<{
+    user_id: string;
+    display_name: string;
+    bet_text: string | null;
+    american_odds: number | null;
+    result: PickResult | null;
+  }>(
+    `SELECT users.id AS user_id, users.display_name, picks.bet_text, picks.american_odds,
+            weekly_results.result
+     FROM users
+     LEFT JOIN picks ON picks.user_id = users.id AND picks.week_id = $1
+     LEFT JOIN weekly_results ON weekly_results.user_id = users.id AND weekly_results.week_id = $1
+     ORDER BY lower(users.display_name)`,
+    [weekId],
+  );
+
+  return result.rows.map((entry) => ({
+    userId: entry.user_id,
+    displayName: entry.display_name,
+    betText: entry.bet_text,
+    americanOdds: entry.american_odds,
+    result: entry.result,
   }));
 }
 

@@ -3,12 +3,14 @@ import { ParlayCalculator } from "@/components/parlay-calculator";
 import { PickResultForm } from "@/components/pick-result-form";
 import { PickForm } from "@/components/pick-form";
 import { WeekNav } from "@/components/week-nav";
+import { isLeagueAdmin } from "@/lib/admin";
 import { getCurrentUser } from "@/lib/auth";
 import { formatLeagueDate, getWeekStatus } from "@/lib/dates";
 import {
   chooseWeek,
   getPicksForWeek,
   getPickTestWeek,
+  getResultEntriesForWeek,
   getWeeks,
 } from "@/lib/league";
 import { formatAmericanOdds } from "@/lib/odds";
@@ -41,15 +43,15 @@ export default async function Home({
   const previousWeek = weeks.find(
     (candidate) => candidate.weekNumber === getPriorWeekNumber(week.weekNumber),
   );
-  const [picks, previousPicks] = await Promise.all([
+  const [picks, previousResults] = await Promise.all([
     getPicksForWeek(week.id),
-    previousWeek ? getPicksForWeek(previousWeek.id) : Promise.resolve([]),
+    previousWeek ? getResultEntriesForWeek(previousWeek.id) : Promise.resolve([]),
   ]);
   const isTestingWeek = getPickTestWeek() === week.weekNumber;
   const status = isTestingWeek ? "open" : getWeekStatus(week.startsAt, week.locksAt);
   const userPick = picks.find((pick) => pick.userId === user?.id);
-  const userPreviousPick = previousPicks.find((pick) => pick.userId === user?.id);
-  const owingNames = missedPickNames(previousPicks);
+  const isAdmin = isLeagueAdmin(user?.email);
+  const owingNames = missedPickNames(previousResults);
 
   return (
     <main>
@@ -92,28 +94,26 @@ export default async function Home({
           </div>
         </section>
 
-        {previousWeek && previousPicks.length > 0 && (
+        {previousWeek && previousResults.length > 0 && (
           <section className="last-week-section" aria-labelledby="last-week-heading">
             <div className="section-heading compact-heading">
               <div>
                 <p className="eyebrow">Settle up</p>
                 <h2 id="last-week-heading">Week {previousWeek.weekNumber} results</h2>
               </div>
-              <span className="pick-count">Tap your result below</span>
+              <span className="pick-count">{isAdmin ? "Commissioner controls" : "Commissioner grades results"}</span>
             </div>
             <div className="pick-grid">
-              {previousPicks.map((pick) => (
-                <article className="pick-card result-card" key={pick.id}>
+              {previousResults.map((entry) => (
+                <article className="pick-card result-card" key={entry.userId}>
                   <div className="pick-card-top">
-                    <span className="avatar">{pick.displayName.charAt(0).toUpperCase()}</span>
-                    <div><h3>{pick.displayName}</h3><p>Last week&apos;s pick</p></div>
-                    <strong className="odds-chip">{formatAmericanOdds(pick.americanOdds)}</strong>
+                    <span className="avatar">{entry.displayName.charAt(0).toUpperCase()}</span>
+                    <div><h3>{entry.displayName}</h3><p>{entry.betText ? "Last week&apos;s pick" : "No bet placed"}</p></div>
+                    {entry.americanOdds !== null && <strong className="odds-chip">{formatAmericanOdds(entry.americanOdds)}</strong>}
                   </div>
-                  <p className="bet-copy">{pick.betText}</p>
-                  {pick.result && <span className={`result-label ${pick.result}`}>{pick.result}</span>}
-                  {userPreviousPick?.id === pick.id && (
-                    <PickResultForm pickId={pick.id} result={pick.result} />
-                  )}
+                  <p className="bet-copy">{entry.betText ?? "No bet submitted."}</p>
+                  {entry.result && <span className={`result-label ${entry.result}`}>{entry.result}</span>}
+                  {isAdmin && <PickResultForm userId={entry.userId} weekId={previousWeek.id} result={entry.result} />}
                 </article>
               ))}
             </div>
