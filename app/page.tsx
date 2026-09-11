@@ -108,7 +108,7 @@ export default async function Home({
                 <article className="pick-card result-card" key={entry.userId}>
                   <div className="pick-card-top">
                     <span className="avatar">{entry.displayName.charAt(0).toUpperCase()}</span>
-                    <div><h3>{entry.displayName}</h3><p>{entry.betText ? "Last week&apos;s pick" : "No bet placed"}</p></div>
+                    <div><h3>{entry.displayName}</h3><p>{entry.betText ? "Last week's pick" : "No bet placed"}</p></div>
                     {entry.americanOdds !== null && <strong className="odds-chip">{formatAmericanOdds(entry.americanOdds)}</strong>}
                   </div>
                   <p className="bet-copy">{entry.betText ?? "No bet submitted."}</p>
