@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { PAYMENT_URL } from "../lib/payment.ts";
+import { getDefaultParlayStake, PAYMENT_URL } from "../lib/payment.ts";
+
+test("defaults the parlay stake to five dollars per miss", () => {
+  assert.equal(getDefaultParlayStake(0), 0);
+  assert.equal(getDefaultParlayStake(3), 15);
+});
 
 test("uses the league Venmo payment link", () => {
   assert.equal(

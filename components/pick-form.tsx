@@ -39,7 +39,7 @@ export function PickForm({
           <input
             name="americanOdds"
             type="text"
-            inputMode="numeric"
+            inputMode="text"
             defaultValue={pick ? formatAmericanOdds(pick.americanOdds) : ""}
             placeholder="-110"
             required

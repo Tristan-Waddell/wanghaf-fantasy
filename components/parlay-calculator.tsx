@@ -1,10 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { calculateParlay, formatMoney, PARLAY_STAKE } from "@/lib/odds";
+import { calculateParlay, formatMoney } from "@/lib/odds";
 
-export function ParlayCalculator({ odds }: { odds: number[] }) {
-  const [stakeText, setStakeText] = useState(String(PARLAY_STAKE));
+export function ParlayCalculator({
+  odds,
+  defaultStake,
+}: {
+  odds: number[];
+  defaultStake: number;
+}) {
+  const [stakeText, setStakeText] = useState(String(defaultStake));
   const parsedStake = Number.parseFloat(stakeText);
   const stake = Number.isFinite(parsedStake) && parsedStake > 0 ? parsedStake : 0;
   const parlay = calculateParlay(odds, stake);

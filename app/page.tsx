@@ -14,7 +14,7 @@ import {
   getWeeks,
 } from "@/lib/league";
 import { formatAmericanOdds } from "@/lib/odds";
-import { PAYMENT_URL } from "@/lib/payment";
+import { getDefaultParlayStake, PAYMENT_URL } from "@/lib/payment";
 import { getPriorWeekNumber, missedPickNames } from "@/lib/results";
 
 export const dynamic = "force-dynamic";
@@ -52,6 +52,7 @@ export default async function Home({
   const userPick = picks.find((pick) => pick.userId === user?.id);
   const isAdmin = isLeagueAdmin(user?.email);
   const owingNames = missedPickNames(previousResults);
+  const defaultParlayStake = getDefaultParlayStake(owingNames.length);
 
   return (
     <main>
@@ -88,7 +89,11 @@ export default async function Home({
           <div className="parlay-card">
             <div>
               <p className="card-label">League parlay · {picks.length} {picks.length === 1 ? "leg" : "legs"}</p>
-              <ParlayCalculator odds={picks.map((pick) => pick.americanOdds)} />
+              <ParlayCalculator
+                defaultStake={defaultParlayStake}
+                key={`${week.id}-${defaultParlayStake}`}
+                odds={picks.map((pick) => pick.americanOdds)}
+              />
             </div>
             <span className="parlay-icon" aria-hidden="true">×</span>
           </div>
