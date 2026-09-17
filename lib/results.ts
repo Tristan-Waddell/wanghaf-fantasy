@@ -10,6 +10,14 @@ export function getPriorWeekNumber(weekNumber: number) {
   return weekNumber > 1 ? weekNumber - 1 : null;
 }
 
+export function missingPickNames(
+  entries: Array<{ displayName: string; betText: string | null }>,
+) {
+  return entries
+    .filter((entry) => entry.betText === null)
+    .map((entry) => entry.displayName);
+}
+
 export function missedPickNames(
   picks: Array<{ displayName: string; result: PickResult | null }>,
 ) {

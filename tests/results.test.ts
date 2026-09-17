@@ -4,6 +4,7 @@ import {
   getPriorWeekNumber,
   isPickResult,
   missedPickNames,
+  missingPickNames,
 } from "../lib/results.ts";
 
 test("identifies the immediately prior league week", () => {
@@ -28,5 +29,16 @@ test("returns payment-banner names for missed picks only", () => {
       { displayName: "Jules", result: null },
     ]),
     ["Taco"],
+  );
+});
+
+test("returns names of league members without a current-week pick", () => {
+  assert.deepEqual(
+    missingPickNames([
+      { displayName: "Taco", betText: "Panthers -3" },
+      { displayName: "Tristan", betText: null },
+      { displayName: "Jordan", betText: null },
+    ]),
+    ["Tristan", "Jordan"],
   );
 });

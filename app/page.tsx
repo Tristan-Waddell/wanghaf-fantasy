@@ -15,7 +15,7 @@ import {
 } from "@/lib/league";
 import { formatAmericanOdds } from "@/lib/odds";
 import { getDefaultParlayStake, PAYMENT_URL } from "@/lib/payment";
-import { getPriorWeekNumber, missedPickNames } from "@/lib/results";
+import { getPriorWeekNumber, missedPickNames, missingPickNames } from "@/lib/results";
 
 export const dynamic = "force-dynamic";
 
@@ -43,8 +43,9 @@ export default async function Home({
   const previousWeek = weeks.find(
     (candidate) => candidate.weekNumber === getPriorWeekNumber(week.weekNumber),
   );
-  const [picks, previousResults] = await Promise.all([
+  const [picks, currentEntries, previousResults] = await Promise.all([
     getPicksForWeek(week.id),
+    getResultEntriesForWeek(week.id),
     previousWeek ? getResultEntriesForWeek(previousWeek.id) : Promise.resolve([]),
   ]);
   const isTestingWeek = getPickTestWeek() === week.weekNumber;
@@ -52,6 +53,7 @@ export default async function Home({
   const userPick = picks.find((pick) => pick.userId === user?.id);
   const isAdmin = isLeagueAdmin(user?.email);
   const owingNames = missedPickNames(previousResults);
+  const missingNames = missingPickNames(currentEntries);
   const defaultParlayStake = getDefaultParlayStake(owingNames.length);
 
   return (
@@ -61,6 +63,13 @@ export default async function Home({
         <a className="pay-button" href={PAYMENT_URL} rel="noreferrer" target="_blank">
           Pay 980
         </a>
+
+        {missingNames.length > 0 && (
+          <aside className="submission-banner" aria-label="Players without a pick this week">
+            <strong>Still need picks</strong>
+            <span>{missingNames.join(", ")} {missingNames.length === 1 ? "has" : "have"} not submitted a Week {week.weekNumber} pick yet.</span>
+          </aside>
+        )}
 
         {owingNames.length > 0 && (
           <aside className="payment-banner" aria-label="Players who owe this week">
