@@ -15,7 +15,6 @@ export default async function StatsPage() {
         <div>
           <p className="eyebrow">Season scoreboard</p>
           <h1 id="stats-heading">League stats</h1>
-          <p>Win rate is the whole damn point. Pushes count as graded picks, but do not move the percentage.</p>
         </div>
         <div className="league-win-rate" aria-label="League win rate">
           <span>League win rate</span>
