@@ -14,8 +14,9 @@ export async function Header() {
           <span className="brand-extra"> – League Betslip</span>
         </Link>
 
+        <Link className="nav-stats" href="/stats">Stats</Link>
+
         <nav className="nav-links" aria-label="Main navigation">
-          <Link href="/stats">Stats</Link>
           {user ? (
             <>
               <span className="nav-user">{user.displayName}</span>

@@ -59,9 +59,9 @@ a {
 
 .nav-shell {
   min-height: 66px;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   gap: 24px;
   padding: 0 22px;
   border: 1px solid rgb(255 255 255 / 9%);
@@ -72,6 +72,7 @@ a {
 }
 
 .brand {
+  justify-self: start;
   display: inline-flex;
   align-items: baseline;
   gap: 7px;
@@ -98,7 +99,20 @@ a {
   font-weight: 700;
 }
 
+.nav-stats {
+  justify-self: center;
+  color: #f7f8f9;
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition: color 160ms ease;
+}
+
+.nav-stats:hover {
+  color: #66c7f8;
+}
+
 .nav-links {
+  justify-self: end;
   display: flex;
   align-items: center;
   gap: 22px;
