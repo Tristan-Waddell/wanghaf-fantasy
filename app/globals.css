@@ -927,6 +927,155 @@ a {
   letter-spacing: 0.06em;
 }
 
+.stats-page {
+  padding-top: 54px;
+  padding-bottom: 80px;
+}
+
+.stats-hero {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 18px;
+  padding: 34px;
+  border-radius: 16px;
+  color: white;
+  background: linear-gradient(125deg, #007fbd, #00527f);
+  box-shadow: 0 14px 34px rgb(0 103 158 / 20%);
+}
+
+.stats-hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  letter-spacing: -0.055em;
+}
+
+.stats-hero .eyebrow {
+  color: #b9edff;
+}
+
+.stats-hero p:last-child {
+  max-width: 630px;
+  margin: 12px 0 0;
+  color: rgb(255 255 255 / 78%);
+  line-height: 1.5;
+}
+
+.league-win-rate {
+  min-width: 210px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 18px 22px;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 12px;
+  background: rgb(0 0 0 / 13%);
+}
+
+.league-win-rate span,
+.league-win-rate small {
+  color: rgb(255 255 255 / 72%);
+  font-size: 0.69rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.league-win-rate strong {
+  margin: 6px 0;
+  font-size: 2.35rem;
+  letter-spacing: -0.06em;
+}
+
+.league-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 42px;
+}
+
+.league-stat-grid article {
+  padding: 17px 19px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: white;
+  box-shadow: 0 5px 16px rgb(28 36 42 / 4%);
+}
+
+.league-stat-grid span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.league-stat-grid strong {
+  display: block;
+  margin-top: 5px;
+  font-size: 1.6rem;
+  letter-spacing: -0.04em;
+}
+
+.leaderboard-section {
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 7px 22px rgb(28 36 42 / 5%);
+}
+
+.stats-table-wrap {
+  overflow-x: auto;
+}
+
+.stats-table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.stats-table th,
+.stats-table td {
+  padding: 15px 14px;
+  border-bottom: 1px solid #e7ebee;
+}
+
+.stats-table thead th {
+  color: var(--muted);
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stats-table tbody tr:last-child th,
+.stats-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.stats-table tbody th {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.92rem;
+}
+
+.stats-rank {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.stats-win-rate {
+  color: var(--panthers-blue-dark);
+  font-size: 1.05rem;
+  font-weight: 950;
+}
+
 .loading-shell {
   min-height: 600px;
   padding-block: 60px;
@@ -984,6 +1133,29 @@ a {
 
   .parlay-card {
     min-height: 120px;
+  }
+
+  .stats-page {
+    padding-top: 34px;
+  }
+
+  .stats-hero {
+    flex-direction: column;
+    gap: 20px;
+    padding: 25px;
+  }
+
+  .league-win-rate {
+    min-width: 0;
+  }
+
+  .league-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 30px;
+  }
+
+  .leaderboard-section {
+    padding: 20px;
   }
 
   .field-grid,

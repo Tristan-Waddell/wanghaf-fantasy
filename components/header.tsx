@@ -15,6 +15,7 @@ export async function Header() {
         </Link>
 
         <nav className="nav-links" aria-label="Main navigation">
+          <Link href="/stats">Stats</Link>
           {user ? (
             <>
               <span className="nav-user">{user.displayName}</span>

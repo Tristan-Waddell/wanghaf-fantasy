@@ -1,5 +1,6 @@
 import { query } from "@/lib/db";
 import type { PickResult } from "@/lib/results";
+import { buildLeagueStats } from "@/lib/stats";
 
 export type LeagueWeek = {
   id: number;
@@ -105,6 +106,23 @@ export async function getResultEntriesForWeek(weekId: number): Promise<LeagueRes
     americanOdds: entry.american_odds,
     result: entry.result,
   }));
+}
+
+export async function getLeagueStats() {
+  const result = await query<{
+    display_name: string;
+    result: PickResult | null;
+  }>(
+    `SELECT users.display_name, weekly_results.result
+     FROM users
+     LEFT JOIN weekly_results ON weekly_results.user_id = users.id
+     ORDER BY lower(users.display_name), weekly_results.recorded_at`,
+  );
+
+  return buildLeagueStats(result.rows.map((entry) => ({
+    displayName: entry.display_name,
+    result: entry.result,
+  })));
 }
 
 export function chooseWeek(weeks: LeagueWeek[], requestedWeek?: string) {
